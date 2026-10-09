@@ -1452,7 +1452,7 @@ var check = async (world, requests, thresholds) => {
 var touchesAllowed = (text2) => /installguard/i.test(text2) && /allowed\.json|cli\.mjs["']?\s+allow\b/.test(text2);
 var ALLOWED_IS_YOURS = "Install Guard held this: it changes the list of packages that are always allowed, which is yours to change.";
 var HOW_TO_ALLOW = "To stop being asked about a package you trust, run /installguard allow <name>.";
-var holding = (why, config) => config.onHold === "deny" ? `Install Guard refused this command: ${why}. Do not retry it or reach the same package another way unless the user asks you to; say what was flagged and offer an established alternative if there is one.` : `Install Guard held this command: ${why}. ${HOW_TO_ALLOW}`;
+var holding = (why, config, canAllow) => config.onHold === "deny" ? `Install Guard refused this command: ${why}. Do not retry it or reach the same package another way unless the user asks you to; say what was flagged and offer an established alternative if there is one.` : `Install Guard held this command: ${why}.${canAllow ? ` ${HOW_TO_ALLOW}` : ""}`;
 var judge = async (world, config, command, cwd) => {
   if (touchesAllowed(command)) {
     return { kind: "held", reason: ALLOWED_IS_YOURS, packages: [], oddities: [] };
@@ -1475,7 +1475,7 @@ var judge = async (world, config, command, cwd) => {
   const packages = await Promise.race([check(world, fresh.slice(0, MOST_PACKAGES), thresholdsOf(config)), world.deadline().then(() => null)]);
   if (packages === null) {
     const names = fresh.map(titled).join(", ");
-    return { kind: "held", reason: holding(`the registries did not answer in time, so ${names || "it"} could not be checked`, config), packages: [], oddities: found.oddities };
+    return { kind: "held", reason: holding(`the registries did not answer in time, so ${names || "it"} could not be checked`, config, false), packages: [], oddities: found.oddities };
   }
   const mustHold = config.hold === "always" || found.oddities.length > 0 || packages.some(isRisky) || fresh.length > MOST_PACKAGES;
   if (!mustHold) {
@@ -1486,7 +1486,7 @@ var judge = async (world, config, command, cwd) => {
     ...fresh.length > MOST_PACKAGES ? [`it names ${fresh.length} new packages at once, more than are checked in one go`] : []
   ];
   const why = flagged.length === 0 ? `it adds ${fresh.map(titled).join(", ")}, which this project does not have yet` : flagged.join(" | ");
-  return { kind: "held", reason: holding(why, config), packages, oddities: found.oddities };
+  return { kind: "held", reason: holding(why, config, packages.length > 0 && found.oddities.length === 0), packages, oddities: found.oddities };
 };
 var describe = (one, at) => {
   const head = `${one.facts.isFound ? summary(one, one.facts, at) : titled(one)} (${registryName(one.ecosystem)})`;

@@ -42,6 +42,10 @@ Outside a registry, these are always held:
 - An install whose package name comes from a shell variable, since it cannot be read.
 - A Homebrew formula from a third-party tap.
 
+Here a project's README tells Copilot to pipe a downloaded script into a shell. Copilot goes to run it, and Install Guard holds it:
+
+![Copilot following a README that pipes a downloaded script into a shell, held by Install Guard and refused](docs/pipe-to-shell.gif)
+
 ## What is flagged
 
 | Flag | Meaning | Default threshold |

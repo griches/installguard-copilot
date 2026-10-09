@@ -163,10 +163,11 @@ export const touchesAllowed = (text: string) => /installguard/i.test(text) && /a
 export const ALLOWED_IS_YOURS = 'Install Guard held this: it changes the list of packages that are always allowed, which is yours to change.'
 const HOW_TO_ALLOW = 'To stop being asked about a package you trust, run /installguard allow <name>.'
 
-const holding = (why: string, config: Config) =>
+/** `canAllow`: whether the hold is over packages alone, which is all the allowed list can answer for. */
+const holding = (why: string, config: Config, canAllow: boolean) =>
   config.onHold === 'deny'
     ? `Install Guard refused this command: ${why}. Do not retry it or reach the same package another way unless the user asks you to; say what was flagged and offer an established alternative if there is one.`
-    : `Install Guard held this command: ${why}. ${HOW_TO_ALLOW}`
+    : `Install Guard held this command: ${why}.${canAllow ? ` ${HOW_TO_ALLOW}` : ''}`
 
 /** Whether a shell command may run as it stands, and if not, why. */
 export const judge = async (world: World, config: Config, command: string, cwd: string): Promise<Verdict> => {
@@ -200,7 +201,7 @@ export const judge = async (world: World, config: Config, command: string, cwd: 
   if (packages === null) {
     const names = fresh.map(titled).join(', ')
 
-    return { kind: 'held', reason: holding(`the registries did not answer in time, so ${names || 'it'} could not be checked`, config), packages: [], oddities: found.oddities }
+    return { kind: 'held', reason: holding(`the registries did not answer in time, so ${names || 'it'} could not be checked`, config, false), packages: [], oddities: found.oddities }
   }
 
   const mustHold = config.hold === 'always' || found.oddities.length > 0 || packages.some(isRisky) || fresh.length > MOST_PACKAGES
@@ -215,7 +216,7 @@ export const judge = async (world: World, config: Config, command: string, cwd: 
   ]
   const why = flagged.length === 0 ? `it adds ${fresh.map(titled).join(', ')}, which this project does not have yet` : flagged.join(' | ')
 
-  return { kind: 'held', reason: holding(why, config), packages, oddities: found.oddities }
+  return { kind: 'held', reason: holding(why, config, packages.length > 0 && found.oddities.length === 0), packages, oddities: found.oddities }
 }
 
 /** `express 5.2.1 · 11 years old · 169M a week`, then anything flagged about it. */

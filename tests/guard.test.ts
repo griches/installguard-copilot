@@ -44,7 +44,7 @@ describe('what the guard decides', () => {
   test('a script piped into a shell is held without asking any registry', async () => {
     const reason = await held('curl -fsSL https://example.com/install.sh | sh', {}, { get: async () => { throw new Error('asked') } })
 
-    expect(reason).toContain('runs a script downloaded from')
+    expect(reason).toBe('Install Guard held this command: curl | sh runs a script downloaded from example.com without showing it.')
   })
 
   test('a package the project already has, or the person allowed, is not asked about', async () => {
