@@ -1,0 +1,18 @@
+{
+  "name": "installguard-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "bun build src/hook.ts --target=node --outfile dist/hook.mjs && bun build src/cli.ts --target=node --outfile dist/cli.mjs",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "sync": "scripts/sync-core.sh"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}

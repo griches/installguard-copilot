@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "${PLUGIN_ROOT}/scripts/session-start.sh",
+        "timeoutSec": 5
+      }
+    ],
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "${PLUGIN_ROOT}/scripts/pre-tool-use.sh",
+        "timeoutSec": 30
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "installguard-copilot",
+  "metadata": {
+    "description": "Self-hosted marketplace for Install Guard for GitHub Copilot CLI",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "Gary Riches"
+  },
+  "plugins": [
+    {
+      "name": "installguard",
+      "description": "Looks up every new package before Copilot installs it: holds made-up names, typosquats, days-old releases and curl-into-shell for your answer, and lets the rest through.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Gary Riches"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/griches/installguard-copilot",
+      "repository": "https://github.com/griches/installguard-copilot",
+      "keywords": ["security", "supply-chain", "copilot-cli", "npm", "pypi", "cargo", "typosquatting", "hooks"],
+      "category": "security",
+      "source": {
+        "source": "github",
+        "repo": "griches/installguard-copilot"
+      }
+    }
+  ]
+}

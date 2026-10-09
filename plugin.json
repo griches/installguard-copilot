@@ -1,0 +1,16 @@
+{
+  "name": "installguard",
+  "description": "Looks up every new package before Copilot installs it: holds made-up names, typosquats, days-old releases and curl-into-shell for your answer, and lets the rest through.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Gary Riches",
+    "url": "https://github.com/griches"
+  },
+  "homepage": "https://github.com/griches/installguard-copilot",
+  "repository": "https://github.com/griches/installguard-copilot",
+  "license": "MIT",
+  "keywords": ["security", "supply-chain", "npm", "pypi", "cargo", "typosquatting", "slopsquatting", "guard", "hooks"],
+  "category": "security",
+  "commands": "commands/",
+  "hooks": "hooks.json"
+}
