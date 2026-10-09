@@ -12,7 +12,7 @@ Install Guard for GitHub Copilot CLI. When Copilot is about to add a package you
 
 Coding agents invent package names, and attackers register the names they invent. They also install whatever the newest version is, minutes after it is published. Install Guard is the check a careful person would make, made every time.
 
-This is the Copilot CLI edition of [installguard](https://github.com/griches/installguard), the Claude Code mod. Both share one detection core.
+Using Claude Code? This is the Copilot CLI edition of [installguard](https://github.com/griches/installguard), the Claude Code mod. Both share one detection core.
 
 ## Install
 
